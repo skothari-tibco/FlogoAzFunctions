@@ -18,20 +18,19 @@ const flogoJSON string = `{
   "triggers": [
     {
       "id": "my_rest_trigger",
-      "ref": "github.com/skothari-tibco/flogoaztrigger",
+      "type":  "flogoaztrigger",
       "handlers": [
         {
           "action": {
-            "ref": "github.com/project-flogo/flow",
+            "type": "flow",
             "settings": {
               "flowURI": "res://flow:simple_flow"
             },
             "input": {
-              "in": "=$.body"
+              "in": "inputA"
             },
             "output" :{
-              "code" : "200",
-              "data": "=$.out"
+              "out": "=$.out"
             }
           }
         }
@@ -56,7 +55,7 @@ const flogoJSON string = `{
             "id": "log",
             "name": "Log Message",
             "activity": {
-              "ref": "github.com/project-flogo/contrib/activity/log",
+              "type": "log",
               "input": {
                 "message": "=$flow.in",
                 "flowInfo": "false",
@@ -65,23 +64,23 @@ const flogoJSON string = `{
             }
           },
           {
-          	"id" :"return",
-          	"name" : "Activity Return",
-          	"activity":{
-          		"ref" : "github.com/project-flogo/contrib/activity/actreturn",
-          		"settings":{
-          			"mappings":{
-          				"out": "nameC"
-          			}
-          		}
-          	}
+            "id" :"actreturn",
+            "name" : "Activity Return",
+            "activity":{
+              "type" : "actreturn",
+              "settings":{
+                "mappings":{
+                  "out": "nameC"
+                }
+              }
+            }
           }
         ],
         "links": [
-        	{
-        		"from":"log",
-        		"to":"return"
-        	}
+          {
+            "from":"log",
+            "to":"actreturn"
+          }
         ]
       }
     }
